@@ -31,6 +31,22 @@ const getWallets = async () => {
   const data = await api("/wallets", 'GET');
   return data.data;
 } 
+const addWallet = async (event) => {
+  const name = event.target[0].value;
+  const quantity = event.target[1].value;
+
+  if(name.length > 2 && quantity > 0){
+    const payload = {
+      name,
+      quantity
+    }
+    const data = await api('/wallets', 'POST', payload);
+    console.log('Wallet POST', data);
+    const walletsUpdate = await getWallets();    
+    walletsStore.update( w => walletsUpdate );
+  }
+  
+} 
 </script>
 
 <style>
@@ -55,8 +71,19 @@ const getWallets = async () => {
   {/if}
 
   <p style="font-size:28px;">Wallets</p>
+
+  <form on:submit|preventDefault="{addWallet}" >
+    <input type="text" placeholder="Nombre" required>
+    <input type="number" placeholder="Cantidad" required step="0.01">
+    <button type="submit">Agregar</button>
+  </form>
+
   {#each $walletsStore as {name, quantity_money}, i } <!--Destructuring props, you can do wallets as w and thats fine as object-->
     <li>{name} - {quantity_money}</li>
+
+  {:else}
+    <p>Cargando ...</p>
   {/each}
+
 
 </div>

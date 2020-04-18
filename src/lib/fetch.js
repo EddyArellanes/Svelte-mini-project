@@ -13,7 +13,7 @@ export default async (endpoint, method, payload)  =>{
     }
   };
   if(payload) options.body = JSON.stringify(payload);
-  console.log('Fetch Options', options);
+
   const data = await fetch(base_url + endpoint, options)
   .then( async (response) => {
     const text = await response.json();

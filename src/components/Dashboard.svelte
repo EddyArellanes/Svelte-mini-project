@@ -6,7 +6,7 @@
 
 <style>
 .Dashboard{
-  position: none;
+  display: none;
 }
 </style>
 <div class="Dashboard">
